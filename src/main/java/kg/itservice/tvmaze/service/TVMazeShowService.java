@@ -1,17 +1,15 @@
 package kg.itservice.tvmaze.service;
 
+import kg.itservice.tvmaze.client.TVMazeRequestHolder;
 import kg.itservice.tvmaze.client.TVMazeExchangeClient;
-import kg.itservice.tvmaze.model.Person;
 import kg.itservice.tvmaze.model.ShowCast;
 import kg.itservice.tvmaze.model.ShowItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 public class TVMazeShowService
@@ -26,11 +24,11 @@ public class TVMazeShowService
 
     public List<ShowItem> searchForShows(String query)
     {
-        return exchangeClient.getShows(query);
+        return exchangeClient.getShows(TVMazeRequestHolder.of(query));
     }
 
     public List<ShowCast> getShowCast(Long showId){
-        return exchangeClient.getShowCast(showId);
+        return exchangeClient.getShowCast(TVMazeRequestHolder.of(showId));
     }
 
     public List<ShowCast> getCastOrderByBirthday(Long showId)

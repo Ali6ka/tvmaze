@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 
@@ -31,10 +30,10 @@ public class TVMazeExchangeClient
         this.restTemplate = restTemplate;
     }
 
-    public List<ShowItem> getShows(String query)
+    public List<ShowItem> getShows(TVMazeRequestHolder requestHolder)
     {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(showSearchUri)
-                .queryParam("q", query);
+                .queryParam("q", requestHolder.getName());
 
         return  restTemplate.exchange(
                 builder.build().toUri(),
@@ -43,9 +42,9 @@ public class TVMazeExchangeClient
                 new ParameterizedTypeReference<List<ShowItem>>() {}).getBody();
     }
 
-    public List<ShowCast> getShowCast(Long id)
+    public List<ShowCast> getShowCast(TVMazeRequestHolder requestHolder)
     {
-        Map<String, String> pathParams = Map.of("id", id.toString());
+        Map<String, String> pathParams = Map.of("id", requestHolder.getId().toString());
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(castUri);
 
         return  restTemplate.exchange(
